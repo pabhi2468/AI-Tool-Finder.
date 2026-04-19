@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Tool Finder</title>
+  <link rel="stylesheet" href="/static/style.css" /> 
+</head>
+<body>
+  <div class="chat-container">
+    <div class="chat-header">AI Tool Finder</div>
+    <div class="chat-messages" id="chat-messages"></div>
+
+    <div class="chat-input">
+      <input type="text" id="query" placeholder="Search for AI tools..." />
+      <button id="search-btn" onclick="searchTools()">🔍</button>
+      <div id="loader" class="loader" style="display: none;"></div>
+    </div>
+  </div>
+
+  <script>
+    async function searchTools() {
+      const query = document.getElementById("query").value.trim();
+      const messagesDiv = document.getElementById("chat-messages");
+      const loader = document.getElementById("loader");
+      const button = document.getElementById("search-btn");
+
+      if (!query) return;
+
+      // Show loading spinner and disable button
+      loader.style.display = "block";
+      button.style.display = "none";
+      button.disabled = true;
+
+      messagesDiv.innerHTML += `<div class="user-message"><strong>You:</strong> ${query}</div>`;
+
+      try {
+        const response = await fetch("/search", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ query }),
+        });
+
+        const data = await response.json();
+        console.log('data: ', data)
+        messagesDiv.innerHTML += `<div class="bot-message">${data?.tools || data?.response}</div>`;
+      } catch (error) {
+        messagesDiv.innerHTML += `<div class="bot-message error">Error fetching data.</div>`;
+      }
+
+      loader.style.display = "none";
+      button.disabled = false;
+      button.style.display = "block";
+      document.getElementById("query").value = "";
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+  </script>
+</body>
+</html>
