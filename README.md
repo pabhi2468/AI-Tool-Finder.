@@ -6,7 +6,7 @@ AI Tool Finder is a web-based application that leverages OpenAI's API to help us
 
 ## 🖼️ Preview
 
-![AI Tool Finder Screenshot](./preview.png)
+![AI Tool Finder Screenshot](https://github.com/pabhi2468/AI-Tool-Finder./blob/cd8bbae8fa70bf8610db6e5064b6daff80ec1148/Screenshot%202026-04-19%20080157.png)
 
 ---
 
